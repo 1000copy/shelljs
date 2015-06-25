@@ -26,7 +26,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "jshint": "~2.1.11"
+    "chai": "^3.0.0",
+    "jshint": "~2.1.11",
+    "minimist": "^1.1.1",
+    "mocha": "^2.2.5",
+    "optimist": "^0.6.1"
   },
   "optionalDependencies": {},
   "engines": {
