@@ -31,6 +31,53 @@ describe('1', function(){
 		expect(argv._).to.deep.equal("ls b c".split(' '))
 		expect("f" in argv).to.equal(true)
     })
+    // optimist 可以定义boolean类型，表现的很棒
+    it('1.1.5', function(){
+      var d  ="ls b -f c".split(' ')
+      var opt = require('optimist').parse      
+      var argv = opt(d);
+	 expect(argv._).to.deep.equal("ls b".split(' '))		
+    })
+    it('1.1.6', function(){
+      var d  ="ls b -f c".split(' ')
+      var opt = require('optimist').boolean("f").parse      
+      var argv = opt(d);
+		expect(argv._).to.deep.equal("ls b c".split(' '))
+    })
+     it('1.1.7', function(){
+      var d  ="ls b -fg c".split(' ')
+      var opt = require('optimist').boolean("f").parse      
+      var argv = opt(d);
+	  expect(argv._).to.deep.equal("ls b".split(' '))
+	  // console.dir(argv)
+    })
+    it('1.1.8', function(){
+      var d  ="ls b -fg c".split(' ')
+      var opt = require('optimist').boolean("f").boolean("g").parse      
+      var argv = opt(d);
+      expect("f" in argv).to.equal(true)
+      expect("g" in argv).to.equal(true)
+	  expect(argv._).to.deep.equal("ls b c".split(' '))
+    })
+    // minimist是否可以？靠！也是可以的。我没有仔细看人家的文档
+    it('1.1.9', function(){
+      var d  ="ls b -fg c".split(' ')
+      var opt = require('minimist')
+      var argv = opt(d,{boolean:["f","g"]});
+      expect("f" in argv).to.equal(true)
+      expect("g" in argv).to.equal(true)
+	  expect(argv._).to.deep.equal("ls b c".split(' '))
+    })
+    it('1.1.0', function(){
+      var d  ="ls b -fg c".split(' ')
+      var opt = require('minimist')
+      var argv = opt(d);
+      // var argv = opt(d,{boolean:["f","g"]});
+      expect("f" in argv).to.equal(true)
+      // expect("g" in argv).to.equal(false)
+      expect(argv.g).to.equal("c")
+	  expect(argv._).to.deep.equal("ls b".split(' '))
+    })
   })
 })
 /*
