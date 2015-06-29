@@ -56,6 +56,7 @@ describe('op', function(){
   	})
   })
 })
+//  集合运算可以用undercore来解决
 function subtract(a,b){
 	var r =[]
 	for(var i =0;i<a.length;i++){
