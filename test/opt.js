@@ -13,8 +13,9 @@ describe('1', function(){
 		expect(argv.c).to.equal(true)
     })
     it('1.1.2', function(){
-      var d  ="ls -ar c".split(' ')
+      var d  ="ls -ard c".split(' ')
       var argv = opt(d);
+        console.log(argv._)
 		expect(argv._).to.deep.equal("ls c".split(' '))
 		expect(argv.a).to.equal(true)
 		expect(argv.r).to.equal(true)		
@@ -78,6 +79,35 @@ describe('1', function(){
       expect(argv.g).to.equal("c")
 	  expect(argv._).to.deep.equal("ls b".split(' '))
     })
+    it('1.1.12', function(){
+      var d  ="ls -ar r".split(' ')
+      var opt = require('minimist')
+      var argv = opt(d);
+      // var argv = opt(d,{boolean:["f","g"]});
+      console.log(argv)
+      expect(argv.a).to.equal(true)
+      expect(argv.r).to.equal("r")
+	  expect(argv._).to.deep.equal("ls".split(' '))
+    })
+    it('1.1.13', function(){
+      var d  ="ls -ar r".split(' ')
+      var opt = require('minimist')
+      var argv = opt(d);
+      var argv = opt(d,{boolean:["r"]});
+      console.log(argv)
+      expect(argv.a).to.equal(true)
+      expect(argv.r).to.equal(true)
+	  expect(argv._).to.deep.equal("ls r".split(' '))
+    })
+    it('1.1.11', function(){
+      var d  ="ls -a avalue -b bvalue arg".split(' ')
+      var opt = require('minimist')
+      var argv = opt(d);
+      // var argv = opt(d,{boolean:["f","g"]});
+      expect(argv.a).to.equal("avalue")
+      expect(argv.b).to.equal("bvalue")      
+      expect(argv._).to.deep.equal("ls arg".split(' '))
+    })
   })
 })
 /*
@@ -87,10 +117,10 @@ describe('1', function(){
   这个不符合我的需要，所以，不得不改。
 
 */
-var d  ="ls zoo -ARBC bin a b c".split(' ')
-var d  ="ls zoo -ARBC bin".split(' ')
-var argv = opt(d);
-console.dir(argv);
+// var d  ="ls zoo -ARBC bin a b c".split(' ')
+// var d  ="ls zoo -ARBC bin".split(' ')
+// var argv = opt(d);
+// console.dir(argv);
 function opt(args) {
     
     var flags = { bools : {}, strings : {}, unknownFn: null };    
