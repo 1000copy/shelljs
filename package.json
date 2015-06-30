@@ -24,7 +24,9 @@
   "bin": {
     "shjs": "./bin/shjs"
   },
-  "dependencies": {},
+  "dependencies": {
+    "yargs": "^3.14.0"
+  },
   "devDependencies": {
     "chai": "^3.0.0",
     "jshint": "~2.1.11",

@@ -55,6 +55,46 @@ describe('op', function(){
   		console.log(subtract(a,b))
   	})
   })
+  describe('yargs', function(){  	
+  	it('tarstyle', function(){
+  		var yargs = require('yargs')("ls -xy".split(" "))
+  		var argv = yargs.argv;
+  		expect(argv.x).to.equal(true)
+  		expect(argv.y).to.equal(true)		
+  		expect(argv._).to.deep.equal(["ls"])		
+  	})
+  	it('boolean', function(){
+  		var yargs = require('yargs')("ls -xy f".split(" "))
+  		yargs.boolean(["x","y"])
+  		var argv = yargs.argv;
+  		expect(argv.x).to.equal(true)
+  		expect(argv.y).to.equal(true)		
+  		expect(argv._).to.deep.equal(["ls","f"])			
+  	})
+  	it('-y=f', function(){
+  		var yargs = require('yargs')("ls -xy f".split(" "))
+  		// yargs.boolean(["x","y"])
+  		var argv = yargs.argv;
+  		expect(argv.x).to.equal(true)
+  		expect(argv.y).to.equal("f")		
+  		expect(argv._).to.deep.equal(["ls"])			
+  	})
+  	it.skip('longquotedstring', function(){
+  		var yargs = require('yargs')("ls -xy f 'long string'".split(" "))
+  		// yargs.boolean(["x","y"])
+  		var argv = yargs.argv;
+  		expect(argv.x).to.equal(true)
+  		expect(argv.y).to.equal("f")		
+  		expect(argv._).to.deep.equal(["ls"])				
+  	})
+  	it.skip('get-help', function(){
+  		var yargs = require('yargs')("ls --help".split(" "))
+  		yargs.boolean(["x","y"])
+  		var argv = yargs.argv;
+  		// expect(yargs.help()).to.equal(true)
+  		
+  	})
+  })
 })
 //  集合运算可以用undercore来解决
 function subtract(a,b){
