@@ -735,7 +735,7 @@ By default, yargs exits the process when the user passes a help flag, uses the `
 
 Parse `args` instead of `process.argv`. Returns the `argv` object.
 
-.reset()
+重新设置，用于子命令的情况.reset()
 --------
 
 Reset the argument object built up so far. This is useful for
@@ -781,10 +781,10 @@ Arguments without a corresponding flag show up in the `argv._` array.
 The script name or node command is available at `argv.$0` similarly to how `$0`
 works in bash or perl.
 
-parsing tricks
+解析技巧parsing tricks
 ==============
 
-stop parsing
+停止解析stop parsing
 ------------
 
 Use `--` to stop parsing flags and stuff the remainder into `argv._`.
@@ -795,7 +795,7 @@ Use `--` to stop parsing flags and stuff the remainder into `argv._`.
       a: 1,
       b: 2 }
 
-negate fields
+负字段negate fields
 -------------
 
 If you want to explicity set a field to false instead of just leaving it
@@ -807,7 +807,7 @@ undefined or to override a default you can do `--no-key`.
       a: true,
       b: false }
 
-numbers
+数字numbers
 -------
 
 Every argument that looks like a number (`!isNaN(Number(arg))`) is converted to
@@ -815,7 +815,7 @@ one. This way you can just `net.createConnection(argv.port)` and you can add
 numbers out of `argv` with `+` without having that mean concatenation,
 which is super frustrating.
 
-duplicates
+重复参数转数组duplicates
 ----------
 
 If you specify a flag multiple times it will get turned into an array containing
@@ -826,7 +826,7 @@ all the values in order.
       '$0': 'node ./examples/reflect.js',
         x: [ 5, 8, 0 ] }
 
-dot notation
+点记号dot notation
 ------------
 
 When you use dots (`.`s) in argument names, an implicit object path is assumed.
@@ -837,7 +837,7 @@ This lets you organize arguments into nested objects.
        '$0': 'node ./examples/reflect.js',
          foo: { bar: { baz: 33 }, quux: 5 } }
 
-short numbers
+短数字short numbers
 -------------
 
 Short numeric `head -n5` style argument work too:
