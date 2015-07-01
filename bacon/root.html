@@ -1,0 +1,16 @@
+<script type="text/javascript">
+ function run(){
+	var r = new XMLHttpRequest();
+	var cmd = document.getElementById("cmd").value
+	r.open("GET", "/run?"+cmd, true);
+	r.onreadystatechange = function () {
+	  if (r.readyState != 4 || r.status != 200) return;
+	  var text = document.getElementById("text")
+	  text.value = r.responseText;
+	};
+	r.send();
+}
+</script>
+commandt<input type='text' value='val' id="cmd"  />
+<input type='button' value='run' onclick="run()" /><p/>
+<textarea name="Text1" cols="40" rows="5"  id="text"></textarea>

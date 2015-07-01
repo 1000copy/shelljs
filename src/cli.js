@@ -6,19 +6,16 @@ exports._pwd = _pwd ;
 function platform(){
 	return os.type().match(/^Win/) ? 'win' : 'unix';
 }
-
-function _ls(options, paths) {
+// options = argv{A,R,_{ls ,path,path}}
+function _ls(options) {
   options.recursive = options.R
   options.all = options.A
   delete options.A
   delete options.R
+  var paths = options._.slice(1)
   if (!paths || paths.length == 0)
     paths = ['.'];
-  else if (typeof paths === 'object')
-    paths = paths; // assume array
-  else if (typeof paths === 'string')
-    paths = [].slice.call(arguments, 1);
-
+  
   var list = [];
 
   // Conditionally pushes file to list - returns true if pushed, false otherwise
