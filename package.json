@@ -25,6 +25,7 @@
     "shjs": "./bin/shjs"
   },
   "dependencies": {
+    "underscore": "^1.8.3",
     "yargs": "^3.14.0"
   },
   "devDependencies": {

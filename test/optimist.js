@@ -5,26 +5,46 @@ describe('op', function(){
   describe('aaap2', function(){
   	// 多出来的选项要提示，比如b
     it('2.1.1', function(){
-    	var cmd = ("ls -xyb").split(' ')
-    	var rr= require('optimist')(cmd)
-		var argv = rr.
-			boolean(['x','y'])
-			.demand("x y".split(" "))			
-			.describe('x', 'Load a file')
-			.describe('y', 'Save a file')
-			.argv
-		;
-		var j = Object.keys(argv)
-		console.dir(j);
-		var jj = subtract(j,["_","$0"])
-		console.dir(jj);
-		console.dir(argv.options);
-		// console.dir(argv);
-		// console.dir([ argv.x, argv.y, argv.z ]);
-		// console.dir(argv._);   
-	}) 
+      	var cmd = ("ls -xyb").split(' ')
+      	var rr= require('optimist')(cmd)
+  		var argv = rr.
+  			boolean(['x','y'])
+  			.demand("x y".split(" "))			
+  			.describe('x', 'Load a file')
+  			.describe('y', 'Save a file')
+  			.argv
+  		;
+  		var j = Object.keys(argv)
+  		console.dir(j);
+  		var jj = subtract(j,["_","$0"])
+  		console.dir(jj);
+  		console.dir(argv.options);
+  		// console.dir(argv);
+  		// console.dir([ argv.x, argv.y, argv.z ]);
+  		// console.dir(argv._);   
+	  }) 
+    it('underscore', function(){
+      var _= require("underscore")
+        var cmd = ("ls -xyb").split(' ')
+        var rr= require('optimist')(cmd)
+      var argv = rr.
+        boolean(['x','y'])
+        .demand("x y".split(" "))     
+        .describe('x', 'Load a file')
+        .describe('y', 'Save a file')
+        .argv
+      ;
+      var j = Object.keys(argv)
+      console.dir(j);
+      var jj = _.difference(j,["_","$0"])
+      console.dir(jj);
+      console.dir(argv._options.boolean);
+      // console.dir(argv);
+      // console.dir([ argv.x, argv.y, argv.z ]);
+      // console.dir(argv._);   
+    }) 
   })
-  it('eeee', function(){
+  it('efeee', function(){
     	var cmd = ("ls -xyb").split(' ')
     	var rr= require('optimist')(cmd)
     	var core = rr.
@@ -46,7 +66,18 @@ describe('op', function(){
 		// console.dir([ argv.x, argv.y, argv.z ]);
 		// console.dir(argv._);   
 	}) 
-  
+    it('help1', function(){
+      var cmd = ("ls -xyb").split(' ')
+      var rr= require('optimist')(cmd)
+      var core = rr.
+      boolean(['x','y'])
+      .demand("x".split(" "))     
+      .describe('x', 'Load a file')
+      .describe('y', 'Save a file')
+    var argv = core.argv
+    ;
+    console.log(core.help())
+  }) 
   describe('2.1', function(){
   	// 多出来的选项要提示，比如b
     it('op1', function(){

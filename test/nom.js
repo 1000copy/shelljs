@@ -1,4 +1,12 @@
-var opts = require("nomnom")
+var opt = require("opt-string")
+
+var shell = require('..');
+var expect =require('chai').expect
+var assert = require("assert")
+
+describe('nomnom', function(){
+    it.skip('2.1.1', function(){
+         var opts = require("nomnom")
          .option('debug', {
             abbr: 'd',
             flag: true,
@@ -22,3 +30,5 @@ var opts = require("nomnom")
       if (opts.debug) {
         console.log("debug")
       } 
+   })
+})
