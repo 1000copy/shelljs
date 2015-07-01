@@ -1,8 +1,31 @@
 var fs = require('fs');
 var os = require('os');
-
+exports.run = run ;
 exports._ls = _ls ;
 exports._pwd = _pwd ;
+var opt = require('opt-string')
+// hack : MUST NOT only run ls .
+function run(cmd){
+
+var s = opt()
+      s
+            .usage("a headline usage text")
+            .demand(1)
+            .options('A', {
+                type:"boolean",
+                describe:"all include hidden",
+                default:false
+            })
+            .options('R', {
+                type:"boolean"
+                ,describe:"recursive to sub dir"
+                ,default:false
+            })
+  var argv = s.parseString(cmd)
+  // console.log(argv)   
+  return _ls(argv);
+}
+
 function platform(){
 	return os.type().match(/^Win/) ? 'win' : 'unix';
 }
@@ -12,7 +35,9 @@ function _ls(options) {
   options.all = options.A
   delete options.A
   delete options.R
-  var paths = options._.slice(1)
+  var paths
+  if (options._)
+    paths = options._.slice(1)
   if (!paths || paths.length == 0)
     paths = ['.'];
   
@@ -56,7 +81,8 @@ function _ls(options) {
             var oldDir = _pwd();
             _cd('', p);
             if (fs.statSync(file).isDirectory())
-              list = list.concat(_ls('-R'+(options.all?'A':''), file+'/*'));
+              // list = list.concat(_ls('-R'+(options.all?'A':''), file+'/*'));
+            list = list.concat(_ls(options), file+'/*');
             _cd('', oldDir);
           }
         });

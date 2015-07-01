@@ -17,31 +17,17 @@ function handleRequest(request, response){
     else if (request.url.indexOf("/run")!=-1){
     	var search = getcmd(request.url)
       try{
-            var s = opt()
-            s
-                  .usage("a headline usage text")
-                  .demand(1)
-                  .options('A', {
-                      type:"boolean",
-                      describe:"all include hidden",
-                      default:false
-                  })
-                  .options('R', {
-                      type:"boolean"
-                      ,describe:"recursive to sub dir"
-                      ,default:false
-                  })
-           var argv = s.parseString(search)
-        console.log(argv)   
-          var r = shell._ls(argv);
+        var r = shell.run(search)
+         // response.end()
+            
         // array to string
         response.end(r.toString())
       }catch(e){
         response.end(e.message)
-        console.log(e.message)
-        console.log(search)
+        // console.log(e.message)
+        // console.log(search)
       }
-    	console.log(request.url)
+    	// console.log(request.url)
     }
     else
     	response.end('It Works!! Path Hit: ' + request.url);
