@@ -3,6 +3,7 @@ var os = require('os');
 exports.run = run ;
 exports._ls = _ls ;
 exports._pwd = _pwd ;
+exports._cd = _cd ;
 var opt = require('opt-string')
 // hack : MUST NOT only run ls .
 function run(cmd){
@@ -29,7 +30,7 @@ var s = opt()
 function platform(){
 	return os.type().match(/^Win/) ? 'win' : 'unix';
 }
-// options = argv{A,R,_{ls ,path,path}}
+// options = argv{A,R,_{path,path}}
 function _ls(options) {
   options.recursive = options.R
   options.all = options.A
@@ -37,10 +38,10 @@ function _ls(options) {
   delete options.R
   var paths
   if (options._)
-    paths = options._.slice(1)
+    paths = options._
   if (!paths || paths.length == 0)
     paths = ['.'];
-  
+  // console.log(options._)
   var list = [];
 
   // Conditionally pushes file to list - returns true if pushed, false otherwise
@@ -129,7 +130,8 @@ function _pwd(options) {
   var pwd = path.resolve(process.cwd());
   return pwd;
 }
-function _cd(options, dir) {
+function _cd(dir) {
+  // console.log(dir)
   if (!dir)
     throw new Error('directory not specified');
 

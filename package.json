@@ -19,7 +19,7 @@
   "homepage": "http://github.com/arturadib/shelljs",
   "main": "./shell.js",
   "scripts": {
-    "test": "node scripts/run-tests"
+    "test": "node test/index.js"
   },
   "bin": {
     "shjs": "./bin/shjs"
