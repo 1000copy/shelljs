@@ -105,11 +105,11 @@ function cpdirSyncRecursive(sourceDir, destDir, opts) {
 //@
 //@ Copies files. The wildcard `*` is accepted.
 function _cp(options, sources, dest) {
-  options = common.parseOptions(options, {
-    'f': 'force',
-    'R': 'recursive',
-    'r': 'recursive'
-  });
+  // options = common.parseOptions(options, {
+  //   'f': 'force',
+  //   'R': 'recursive',
+  //   'r': 'recursive'
+  // });//
 
   // Get sources, dest
   if (arguments.length < 3) {

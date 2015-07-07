@@ -1,11 +1,52 @@
 // commands dispatcher
 
 var _ = require("underscore")
-var cli = require("./src/cli.js")
+var cli = require("./cli.js")
 var opt = require('minimist')
-
-
+var _cp = require("./cp.js")
+var _rm = require("./rm.js")
 exports.run = run 
+//
+var cmdgate = {
+  ls :ls
+  ,pwd:pwd
+  ,cd:cd
+  ,cat:cat
+  ,cp:cp
+  ,rm:rm
+}
+
+function rm (str){
+  var argv = opt(String2Argv(str),{boolean:["R","f"]});
+  argv.force = argv.f
+  argv.recursive = argv.R
+  delete argv.f
+  delete argv.R
+  //@ + `-f`: force
+//@ + `-r, -R`: recursive
+  var poses = argv._
+  console.log(poses)
+  if (poses.length !=2)
+      throw new Error("argv length must be 2")
+  files = [].slice.call(poses, 1);
+  return _rm(argv,files)
+}
+
+function cp (str){
+  var argv = opt(String2Argv(str),{boolean:["R","f"]});
+  argv.force = argv.f
+  argv.recursive = argv.R
+  delete argv.f
+  delete argv.R
+  //@ + `-f`: force
+//@ + `-r, -R`: recursive
+  var poses = argv._
+  console.log(poses)
+  if (poses.length !=3)
+      throw new Error("argv length must be 3")
+  return _cp(argv,poses[1],poses[2])    
+}
+
 
 function cat (str){
   var argv = opt(String2Argv(str));
@@ -32,13 +73,7 @@ function cd (str){
   // console.log(argv)
   return cli._cd(d)    
 }
-var cmdgate = {
-	ls :ls
-	,pwd:pwd
-	,cd:cd
-	,cat:cat
 
-}
 var _ = require("underscore")
 function run(str){
 	// console.log(str)

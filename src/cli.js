@@ -1,32 +1,13 @@
 var fs = require('fs');
 var os = require('os');
 var common = require('./common.js');
-exports.run = run ;
+
 exports._ls = _ls ;
 exports._pwd = _pwd ;
 exports._cd = _cd ;
+exports._cat = _cat;
 var opt = require('opt-string')
-// hack : MUST NOT only run ls .
-function run(cmd){
 
-var s = opt()
-      s
-            .usage("a headline usage text")
-            .demand(1)
-            .options('A', {
-                type:"boolean",
-                describe:"all include hidden",
-                default:false
-            })
-            .options('R', {
-                type:"boolean"
-                ,describe:"recursive to sub dir"
-                ,default:false
-            })
-  var argv = s.parseString(cmd)
-  // console.log(argv)   
-  return _ls(argv);
-}
 
 function platform(){
 	return os.type().match(/^Win/) ? 'win' : 'unix';
@@ -169,4 +150,4 @@ function _cat(files) {
 
   return common.ShellString(cat);
 }
-module.exports._cat = _cat;
+
