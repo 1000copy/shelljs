@@ -1,7 +1,17 @@
 // commands dispatcher
+
 var _ = require("underscore")
 var cli = require("./src/cli.js")
 var opt = require('minimist')
+
+
+exports.run = run 
+
+function cat (str){
+  var argv = opt(String2Argv(str));
+  argv._ = argv._.slice(1)
+  return cli._cat(argv._)    
+}
 
 function ls (str){
   var argv = opt(String2Argv(str),{boolean:["R","A"]});
@@ -26,6 +36,7 @@ var cmdgate = {
 	ls :ls
 	,pwd:pwd
 	,cd:cd
+	,cat:cat
 
 }
 var _ = require("underscore")
@@ -46,8 +57,7 @@ function whichCmd(str){
 	else
 		return undefined
 }
-exports.whichCmd = whichCmd 
-exports.run = run 
+
 
 function String2Argv(str){
 	return parseArgsStringToArgv(str,"","")
