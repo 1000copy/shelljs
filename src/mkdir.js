@@ -35,9 +35,11 @@ function mkdirSyncRecursive(dir) {
 //@
 //@ Creates directories.
 function _mkdir(options, dirs) {
-  options = common.parseOptions(options, {
-    'p': 'fullpath'
-  });
+  // options = common.parseOptions(options, {
+  //   'p': 'fullpath'
+  // });
+  // console.log(dirs)
+  // console.log(options)
   if (!dirs)
     common.error('no paths given');
 

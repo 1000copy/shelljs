@@ -1,3 +1,4 @@
+
 var common = require('./common');
 var fs = require('fs');
 var path = require('path');
@@ -13,7 +14,22 @@ var path = require('path');
 //@
 //@ Analogous to the redirection operator `>` in Unix, but works with JavaScript strings (such as
 //@ those returned by `cat`, `grep`, etc). _Like Unix redirections, `to()` will overwrite any existing file!_
-function _to(options, file) {
+function _to(options, str,dest) {
+  if (!dest)
+    common.error('wrong arguments');
+
+  if (!fs.existsSync( path.dirname(dest) ))
+      common.error('no such file or directory: ' + path.dirname(dest));
+
+  try {
+    fs.writeFileSync(dest,str, 'utf8');
+  } catch(e) {
+    common.error('could not write to file (code '+e.code+'): '+dest, true);
+  }
+}
+module.exports._to = _to;
+
+function _toEnd(options,str, file) {
   if (!file)
     common.error('wrong arguments');
 
@@ -21,9 +37,9 @@ function _to(options, file) {
       common.error('no such file or directory: ' + path.dirname(file));
 
   try {
-    fs.writeFileSync(file, this.toString(), 'utf8');
+    fs.appendFileSync(file, str, 'utf8');
   } catch(e) {
-    common.error('could not write to file (code '+e.code+'): '+file, true);
+    common.error('could not append to file (code '+e.code+'): '+file, true);
   }
 }
-module.exports = _to;
+module.exports._toEnd = _toEnd;

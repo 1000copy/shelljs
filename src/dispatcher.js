@@ -1,13 +1,22 @@
 // commands dispatcher
 
 var _ = require("underscore")
-var cli = require("./cli.js")
+var _ls = require("./ls.js")
 var opt = require('minimist')
 var _cp = require("./cp.js")
 var _rm = require("./rm.js")
 var _mkdir = require("./mkdir.js")
 var _mv = require("./mv.js")
 var common = require("./common.js")
+var _tempDir = require("./tempdir.js")
+var _cat = require("./cat.js")
+
+var _cd = require("./cd.js")
+var _pwd = require("./pwd.js")
+var _touch = require("./touch.js")
+var _to = require("../src/to.js")._to
+var _toEnd = require("../src/to.js")._toEnd
+
 exports.run = run 
 //
 var cmdgate = {
@@ -20,8 +29,65 @@ var cmdgate = {
   ,touch:touch
   ,mkdir:mkdir
   ,mv:mv
+  ,tempdir:tempdir
+  ,to:to
+  ,toend:toend
+  ,find:find
+  ,grep:grep
+  ,sed:sed
 }
 
+function sed (str){
+  var argv = opt(String2Argv(str),{});//force
+  var poses = argv._
+  // console.log(poses)
+  if (poses.length != 3)
+      throw new common.ArgumentLengthError()
+  return _to({},poses[1],poses[2])
+}    
+
+function find (str){
+  var argv = opt(String2Argv(str),{});//force
+  var poses = argv._
+  // console.log(poses)
+  if (poses.length != 3)
+      throw new common.ArgumentLengthError()
+  return _to({},poses[1],poses[2])
+}    
+
+function grep (str){
+  var argv = opt(String2Argv(str),{});//force
+  var poses = argv._
+  // console.log(poses)
+  if (poses.length != 3)
+      throw new common.ArgumentLengthError()
+  return _to({},poses[1],poses[2])
+}    
+
+function to (str){
+  var argv = opt(String2Argv(str),{});//force
+  var poses = argv._
+  // console.log(poses)
+  if (poses.length != 3)
+      throw new common.ArgumentLengthError()
+  return _to({},poses[1],poses[2])
+}    
+function toend (str){
+  var argv = opt(String2Argv(str),{});//force
+  var poses = argv._
+  // console.log(poses)
+  if (poses.length != 3)
+      throw new common.ArgumentLengthError()
+  return _toEnd({},poses[1],poses[2])
+  
+}    
+function tempdir(str){
+  var argv = opt(String2Argv(str),{});//force
+  var poses = argv._
+  if (poses.length != 1)
+      throw new common.ArgumentLengthError()
+  return _tempDir()
+}
 function mv(str){
   var argv = opt(String2Argv(str),{boolean:["f"]});//force
   argv.force = argv.f
@@ -47,7 +113,7 @@ function touch(str){
   var poses = argv._
   if (poses.length !=2)
       throw new common.ArgumentLengthError(1)
-  cli._touch(poses[1])
+  _touch(poses[1])
 }
 function rm (str){
   var argv = opt(String2Argv(str),{boolean:["R","f"]});
@@ -58,7 +124,7 @@ function rm (str){
   //@ + `-f`: force
 //@ + `-r, -R`: recursive
   var poses = argv._
-  console.log(poses)
+  // console.log(poses)
   if (poses.length !=2)
       throw new common.ArgumentLengthError(1)
   files = [].slice.call(poses, 1);
@@ -84,18 +150,18 @@ function cp (str){
 function cat (str){
   var argv = opt(String2Argv(str));
   argv._ = argv._.slice(1)
-  return cli._cat(argv._)    
+  return _cat(argv._)    
 }
 
 function ls (str){
   var argv = opt(String2Argv(str),{boolean:["R","A"]});
   argv._ = argv._.slice(1)
-  return cli._ls(argv)    
+  return _ls(argv)    
 }
 function pwd (str){
   var argv = opt(String2Argv(str),{});
   argv._ = argv._.slice(1)
-  return cli._pwd(argv)    
+  return _pwd(argv)    
 }
 function cd (str){
   var argv = opt(String2Argv(str),{});
@@ -104,7 +170,7 @@ function cd (str){
   var d = argv._[1]
   // console.log(d)
   // console.log(argv)
-  return cli._cd(d)    
+  return _cd(d)    
 }
 
 var _ = require("underscore")

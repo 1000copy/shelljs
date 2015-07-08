@@ -1,53 +1,33 @@
-var path = require('path');
+
 var fs = require('fs');
-var common = require('./common');
-var _cd = require('./cd');
-var _pwd = require('./pwd');
-
-//@
-//@ ### ls([options ,] path [,path ...])
-//@ ### ls([options ,] path_array)
-//@ Available options:
-//@
-//@ + `-R`: recursive
-//@ + `-A`: all files (include files beginning with `.`, except for `.` and `..`)
-//@
-//@ Examples:
-//@
-//@ ```javascript
-//@ ls('projs/*.js');
-//@ ls('-R', '/users/me', '/tmp');
-//@ ls('-R', ['/users/me', '/tmp']); // same as above
-//@ ```
-//@
-//@ Returns array of files in the given path, or in current directory if no path provided.
-function _ls(options, paths) {
-  options = common.parseOptions(options, {
-    'R': 'recursive',
-    'A': 'all',
-    'a': 'all_deprecated'
-  });
-
-  if (options.all_deprecated) {
-    // We won't support the -a option as it's hard to image why it's useful
-    // (it includes '.' and '..' in addition to '.*' files)
-    // For backwards compatibility we'll dump a deprecated message and proceed as before
-    common.log('ls: Option -a is deprecated. Use -A instead');
-    options.all = true;
+var os = require('os');
+var path = require('path');
+var common = require('./common.js');
+var _pwd = require("./pwd.js")
+var _cd = require("./cd.js")
+module.exports = _ls;
+function platform(){
+	return os.type().match(/^Win/) ? 'win' : 'unix';
+}
+// options = argv{A,R,_{path,path}}
+function _ls(options,paths) {
+  options.recursive = options.R
+  options.all = options.A
+  delete options.A
+  delete options.R
+  if (paths==undefined){
+    if (options._)
+      paths = options._
   }
-
-  if (!paths)
-    paths = ['.'];
-  else if (typeof paths === 'object')
-    paths = paths; // assume array
-  else if (typeof paths === 'string')
-    paths = [].slice.call(arguments, 1);
-
+  if (!paths || paths.length == 0)
+      paths = ['.'];
+  console.log(paths)
   var list = [];
 
   // Conditionally pushes file to list - returns true if pushed, false otherwise
   // (e.g. prevents hidden files to be included unless explicitly told so)
   function pushFile(file, query) {
+    // console.log(file,query)
     // hidden file?
     if (path.basename(file)[0] === '.') {
       // not explicitly asking for hidden files?
@@ -55,7 +35,7 @@ function _ls(options, paths) {
         return false;
     }
 
-    if (common.platform === 'win')
+    if (platform() === 'win')
       file = file.replace(/\\/g, '/');
 
     list.push(file);
@@ -83,7 +63,7 @@ function _ls(options, paths) {
             var oldDir = _pwd();
             _cd('', p);
             if (fs.statSync(file).isDirectory())
-              list = list.concat(_ls('-R'+(options.all?'A':''), file+'/*'));
+            list = list.concat(_ls(options), file+'/*');
             _cd('', oldDir);
           }
         });
@@ -111,16 +91,15 @@ function _ls(options, paths) {
           if (options.recursive) {
             var pp = dirname + '/' + file;
             if (fs.lstatSync(pp).isDirectory())
-              list = list.concat(_ls('-R'+(options.all?'A':''), pp+'/*'));
+              list = list.concat(_ls({R:true,A:options.all}, pp+'/*'));
           } // recursive
         } // if file matches
       }); // forEach
       return;
     }
 
-    common.error('no such file or directory: ' + p, true);
+    throw new Error('no such file or directory: ' + p)//common.error('no such file or directory: ' + p, true);
   });
 
   return list;
 }
-module.exports = _ls;

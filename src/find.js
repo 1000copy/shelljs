@@ -1,6 +1,6 @@
 var fs = require('fs');
 var common = require('./common');
-var _ls = require('./ls');
+var _ls = require('./ls.js');
 
 //@
 //@ ### find(path [,path ...])
@@ -17,16 +17,17 @@ var _ls = require('./ls');
 //@
 //@ The main difference from `ls('-R', path)` is that the resulting file names
 //@ include the base directories, e.g. `lib/resources/file1` instead of just `file1`.
-function _find(options, paths) {
+function _find( paths) {
+  // console.log(paths)
   if (!paths)
     common.error('no path specified');
   else if (typeof paths === 'object')
     paths = paths; // assume array
   else if (typeof paths === 'string')
-    paths = [].slice.call(arguments, 1);
+    paths = [].slice.call(arguments, 0);
 
   var list = [];
-
+  // console.log(paths)
   function pushFile(file) {
     if (common.platform === 'win')
       file = file.replace(/\\/g, '/');
@@ -35,12 +36,16 @@ function _find(options, paths) {
 
   // why not simply do ls('-R', paths)? because the output wouldn't give the base dirs
   // to get the base dir in the output, we need instead ls('-R', 'dir/*') for every directory
-
+  
   paths.forEach(function(file) {
+    // console.log(file)
     pushFile(file);
 
     if (fs.statSync(file).isDirectory()) {
-      _ls('-RA', file+'/*').forEach(function(subfile) {
+      // console.log(_ls)
+      _ls({R:true,A:true},[file]).forEach(function(subfile) {
+        // console.log("subfilesubfilesubfilesubfile")
+        // console.log(subfile)
         pushFile(subfile);
       });
     }

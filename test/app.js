@@ -5,7 +5,6 @@
 
 */
 var expect = require('chai').expect
-var cli = require("../src/cli.js")
 var d = require("../src/dispatcher.js")
 var common = require("../src/common.js")
 
@@ -47,21 +46,60 @@ describe('cli', function () {
     done()  
   })
 })
-
+var _tempDir = require("../src/tempdir.js")
 describe('cli', function () {
   it('should have ..', function (done) {
-    var err = new ReferenceError('This is a bad function.');
-    var fn = function () { throw err; }
-    expect(fn).to.throw(ReferenceError);
-    expect(fn).to.throw(Error);
-    expect(fn).to.throw(/bad function/);
-    expect(fn).to.not.throw('good function');
-    expect(fn).to.throw(ReferenceError, /bad function/);
-    expect(fn).to.throw(err);
-    expect(fn).to.not.throw(new RangeError('Out of range.'));
+    expect(_tempDir()).to.eql(_tempDir())
+    done()
+  })
+  it('tempdir', function (done) {
+    expect(d.run("tempdir")).to.eql(_tempDir())
+    done()
+  })
+  it('toend', function (done) {
+    // var _to = require("../src/to.js")._to
+    // var _toEnd = require("../src/to.js")._toEnd
+    // _to({},"string","./data/new.js")
+    // _toEnd({},"\nend","./data/new.js")
+    d.run("to new ./data/new.js")
+    d.run("toend tail ./data/new.js")
+    expect(d.run("cat ./data/new.js")).to.eql("newtail")
+    done()
+  })
+  it('which', function (done) {
+    var _which = require("../src/which.js")
+    // _which({},"mocha").indexOf("mocha")
+    expect(_which({},"mocha").indexOf("mocha")).to.not.equal(-1)
+    expect(_which({},"node").indexOf("node")).to.not.equal(-1)
+    expect(_which({},"ls").indexOf("ls")).to.not.equal(-1)
+    expect(_which({},"mocha").indexOf("mocha")).to.not.equal(-1)
+    expect(_which({},"mocha").indexOf("mocha")).to.not.equal(-1)
+    done()
+  })
+  it('find', function (done) {
+    var _find = require("../src/find.js")    
+    console.log(_find("test"))        
+    done()
+  })
+  it('ls', function (done) {
+    // var a = "C:\\Users\\lcj\\Documents\\GitHub\\shelljs\\"
+    // var _ls = require("../src/ls.js")
+    // console.log(_ls({R:false,A:true},[a]))
+    done()
+  })
+  it('grep', function (done) {
+    var _grep = require("../src/grep.js")
+    expect(_grep({v:false},/abc/,"test/app.js").split("\n").length).to.equal(4)
+    done()
+  })
+  it('sed', function (done) {    
     done()
   })
 })
 
+// blow for grep test
+// abc ghi
+// abc def
 
 
+//todo : find ,grep ,sed 需要继续改成命令

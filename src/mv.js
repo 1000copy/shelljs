@@ -19,9 +19,9 @@ var common = require('./common');
 //@
 //@ Moves files. The wildcard `*` is accepted.
 function _mv(options, sources, dest) {
-  options = common.parseOptions(options, {
-    'f': 'force'
-  });
+  // options = common.parseOptions(options, {
+  //   'f': 'force'
+  // });
 
   // Get sources, dest
   if (arguments.length < 3) {

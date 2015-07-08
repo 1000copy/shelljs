@@ -18,9 +18,9 @@ var fs = require('fs');
 //@ Reads input string from given files and returns a string containing all lines of the
 //@ file that match the given `regex_filter`. Wildcard `*` accepted.
 function _grep(options, regex, files) {
-  options = common.parseOptions(options, {
-    'v': 'inverse'
-  });
+  // options = common.parseOptions(options, {
+  //   'v': 'inverse'
+  // });
 
   if (!files)
     common.error('no paths given');
