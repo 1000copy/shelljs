@@ -200,3 +200,19 @@ function wrap(cmd, fn, options) {
   };
 } // wrap
 exports.wrap = wrap;
+exports.ArgumentLengthError = ArgumentLengthError;
+exports.CustomError = CustomError;
+
+function ArgumentLengthError(length) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = "arguments length must be :" + length;  
+};
+
+function CustomError(message) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = message;  
+};
+ 
+require('util').inherits(module.exports, Error);

@@ -1,6 +1,6 @@
 var assert = require("assert")
 
-var cli = require("./src/cli.js")
+var cli = require("../src/cli.js")
 
 var options = {
 		R:false,

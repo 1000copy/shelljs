@@ -112,7 +112,7 @@ function _rm(options, files) {
   //   'R': 'recursive'
   // });
   if (!files)
-    common.error('no paths given');
+    throw new Error('no paths given');
 
   if (typeof files === 'string')
     files = [].slice.call(arguments, 1);

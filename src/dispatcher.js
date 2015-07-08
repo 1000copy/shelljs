@@ -5,6 +5,9 @@ var cli = require("./cli.js")
 var opt = require('minimist')
 var _cp = require("./cp.js")
 var _rm = require("./rm.js")
+var _mkdir = require("./mkdir.js")
+var _mv = require("./mv.js")
+var common = require("./common.js")
 exports.run = run 
 //
 var cmdgate = {
@@ -14,8 +17,38 @@ var cmdgate = {
   ,cat:cat
   ,cp:cp
   ,rm:rm
+  ,touch:touch
+  ,mkdir:mkdir
+  ,mv:mv
 }
 
+function mv(str){
+  var argv = opt(String2Argv(str),{boolean:["f"]});//force
+  argv.force = argv.f
+  var poses = argv._
+  if (poses.length <3)
+      throw new common.ArgumentLengthError()
+  _mv(argv,poses[1],poses[2])
+}
+
+
+function mkdir(str){
+  var argv = opt(String2Argv(str),{boolean:["p"]});
+  argv.fullpath = argv.p 
+  var poses = argv._
+  if (poses.length !=2)
+      throw new common.ArgumentLengthError(1)
+  _mkdir(argv,poses.slice(1))
+}
+
+
+function touch(str){
+  var argv = opt(String2Argv(str),{});
+  var poses = argv._
+  if (poses.length !=2)
+      throw new common.ArgumentLengthError(1)
+  cli._touch(poses[1])
+}
 function rm (str){
   var argv = opt(String2Argv(str),{boolean:["R","f"]});
   argv.force = argv.f
@@ -27,7 +60,7 @@ function rm (str){
   var poses = argv._
   console.log(poses)
   if (poses.length !=2)
-      throw new Error("argv length must be 2")
+      throw new common.ArgumentLengthError(1)
   files = [].slice.call(poses, 1);
   return _rm(argv,files)
 }
@@ -43,7 +76,7 @@ function cp (str){
   var poses = argv._
   console.log(poses)
   if (poses.length !=3)
-      throw new Error("argv length must be 3")
+      throw new common.ArgumentLengthError(3)
   return _cp(argv,poses[1],poses[2])    
 }
 
@@ -67,7 +100,7 @@ function pwd (str){
 function cd (str){
   var argv = opt(String2Argv(str),{});
   if (argv._.length !=2)
-  	throw new Error("argv length must be 1")
+  	throw new common.ArgumentLengthError(1)
   var d = argv._[1]
   // console.log(d)
   // console.log(argv)

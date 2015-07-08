@@ -6,9 +6,13 @@ exports._ls = _ls ;
 exports._pwd = _pwd ;
 exports._cd = _cd ;
 exports._cat = _cat;
+exports._touch = _touch;
 var opt = require('opt-string')
 
 
+function _touch(filepath){
+  fs.closeSync(fs.openSync(filepath, 'w'));
+}
 function platform(){
 	return os.type().match(/^Win/) ? 'win' : 'unix';
 }
@@ -130,7 +134,7 @@ function _cat(files) {
   var cat = '';
 
   if (!files)
-    common.error('no paths given');
+    throw new common.CustomError('no paths given');
 
   if (typeof files === 'string')
     files = [].slice.call(arguments, 1);
@@ -140,7 +144,7 @@ function _cat(files) {
 
   files.forEach(function(file) {
     if (!fs.existsSync(file))
-      common.error('no such file or directory: ' + file);
+      throw new common.CustomError('no such file or directory: ' + file);
 
     cat += fs.readFileSync(file, 'utf8') + '\n';
   });

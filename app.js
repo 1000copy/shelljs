@@ -14,9 +14,17 @@ var d = require("./src/dispatcher.js")
 // assert.equal(d.run("cat app.js").slice(0,5),"//app")
 // assert.equal(d.run("cat readme.md ").length>=0,true)
 // 自己修改自己，导致nodemon死循环的重启，不行。得另外建立一个目录来测试
-try
-{assert.equal(d.run("cp app.js app_cp.js"),true)}catch(e){}
-assert.equal(d.run("rm app_cp.js"),undefined)
-
-
+// try
+// {assert.equal(d.run("cp app.js app_cp.js"),true)}catch(e){}
+// assert.equal(d.run("rm app_cp.js"),undefined)
+try{
+	// d.run("rm")
+	// console.log(d.run("cat readme.md "))
+	assert.equal(d.run("cat readme.md ").length>=0,true)
+}catch(e){
+	// console.log(e.name)
+	// console.log(e.message)
+	console.log(e.stack)
+	// console.log(e.stack.split("\n"))
+}
 

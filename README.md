@@ -1,3 +1,13 @@
+
+nodemon app.js 可以自动重启app.js 当被修改的使用，很好用
+
+要是mocha呢？
+
+    nodemon %appdata%\npm\node_modules\mocha\bin\mocha --watch test --watch src
+
+默认监视当前目录（不递归）。要多监视的话，需要用--watch 
+
+
 # ShellJS - Unix shell commands for Node.js [![Build Status](https://secure.travis-ci.org/arturadib/shelljs.png)](http://travis-ci.org/arturadib/shelljs)
 
 ShellJS is a portable **(Windows/Linux/OS X)** implementation of Unix shell commands on top of the Node.js API. You can use it to eliminate your shell script's dependency on Unix while still keeping its familiar and powerful commands. You can also install it globally so you can run it from outside Node projects - say goodbye to those gnarly Bash scripts!
