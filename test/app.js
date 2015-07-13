@@ -1,9 +1,3 @@
-/*
-  examples-test.js: Test to run all the examples
-
-  Copyright (c) Nodejitsu 2013
-
-*/
 var expect = require('chai').expect
 var d = require("../src/dispatcher.js")
 var common = require("../src/common.js")
