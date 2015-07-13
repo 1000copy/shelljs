@@ -7,7 +7,7 @@ var common = require('./common.js');
 
 
 function _cd(options,dir) {
-  console.log(dir)
+  // console.log(dir)
   if (!dir)
     throw new Error('directory not specified');
 

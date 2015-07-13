@@ -17,10 +17,11 @@ var fs = require('fs');
 //@ Reads an input string from `file` and performs a JavaScript `replace()` on the input
 //@ using the given search regex and replacement string or function. Returns the new string after replacement.
 function _sed(options, regex, replacement, file) {
-  options = common.parseOptions(options, {
-    'i': 'inplace'
-  });
-
+  // options = common.parseOptions(options, {
+  //   'i': 'inplace'
+  // });
+  options.inplace = options.i
+  
   if (typeof replacement === 'string' || typeof replacement === 'function')
     replacement = replacement; // no-op
   else if (typeof replacement === 'number')

@@ -16,7 +16,9 @@ var _pwd = require("./pwd.js")
 var _touch = require("./touch.js")
 var _to = require("../src/to.js")._to
 var _toEnd = require("../src/to.js")._toEnd
-
+var _find = require("../src/find.js")
+var _grep = require("../src/grep.js")
+var _sed = require("../src/sed.js")
 exports.run = run 
 //
 var cmdgate = {
@@ -38,30 +40,33 @@ var cmdgate = {
 }
 
 function sed (str){
-  var argv = opt(String2Argv(str),{});//force
+  var argv = opt(String2Argv(str),{boolean:["i"]});
   var poses = argv._
-  // console.log(poses)
-  if (poses.length != 3)
+  if (poses.length != 4)
       throw new common.ArgumentLengthError()
-  return _to({},poses[1],poses[2])
+  return _sed({},new RegExp(poses[1]),poses[2],poses[3])
 }    
 
 function find (str){
   var argv = opt(String2Argv(str),{});//force
   var poses = argv._
   // console.log(poses)
-  if (poses.length != 3)
+  if (poses.length < 2)
       throw new common.ArgumentLengthError()
-  return _to({},poses[1],poses[2])
+  return _find(poses.slice(1))
 }    
 
 function grep (str){
-  var argv = opt(String2Argv(str),{});//force
+  var argv = opt(String2Argv(str),{boolean:["v"]});
   var poses = argv._
-  // console.log(poses)
-  if (poses.length != 3)
+  // console.log(argv)
+  if (poses.length < 3)
       throw new common.ArgumentLengthError()
-  return _to({},poses[1],poses[2])
+  // 这样写是不行的。必须new RegExp(pose[1])
+  // return _grep({v:argv.v},/poses[1]/,poses.slice(2))
+  // console.log(poses[1])
+  var r =  new RegExp(poses[1])
+  return _grep({v:argv.v},r,poses.slice(2))
 }    
 
 function to (str){

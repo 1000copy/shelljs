@@ -21,9 +21,6 @@ describe('cli', function () {
   it('rm argument length must be fill', function (done) {
     var f = function(){d.run("rm")}
     var g = d.run.bind(this,"rm")
-    // f()
-    // f()
-    // expect(f).to.throw(/no paths given/)
     expect(f).to.throw(common.ArgumentLengthError)
     expect(g).to.throw(common.ArgumentLengthError)
     done()
@@ -57,10 +54,6 @@ describe('cli', function () {
     done()
   })
   it('toend', function (done) {
-    // var _to = require("../src/to.js")._to
-    // var _toEnd = require("../src/to.js")._toEnd
-    // _to({},"string","./data/new.js")
-    // _toEnd({},"\nend","./data/new.js")
     d.run("to new ./data/new.js")
     d.run("toend tail ./data/new.js")
     expect(d.run("cat ./data/new.js")).to.eql("newtail")
@@ -78,21 +71,25 @@ describe('cli', function () {
   })
   it('find', function (done) {
     var _find = require("../src/find.js")    
-    console.log(_find("test"))        
+    expect(_find("data")).to.eql(d.run("find data"))
+    expect(_find("data","test")).to.eql(d.run("find data test"))
     done()
   })
   it('ls', function (done) {
-    // var a = "C:\\Users\\lcj\\Documents\\GitHub\\shelljs\\"
-    // var _ls = require("../src/ls.js")
-    // console.log(_ls({R:false,A:true},[a]))
+    var _ls = require("../src/ls.js")
+    expect(_ls({R:false,A:false},["."])).to.eql(d.run("ls ."))
     done()
   })
   it('grep', function (done) {
     var _grep = require("../src/grep.js")
-    expect(_grep({v:false},/abc/,"test/app.js").split("\n").length).to.equal(4)
+    expect(_grep({v:false},/abc/,"test/app.js")).to.eql(d.run("grep abc test/app.js"))
+    expect(_grep({v:true},/abc/,"test/app.js")).to.eql(d.run("grep -v abc test/app.js"))    
     done()
   })
   it('sed', function (done) {    
+    var _sed = require("../src/sed.js")
+    expect(_sed({i:false},/tail/,"head","data/new.js")).to.eql(d.run("sed tail head data/new.js"))
+    expect(_sed({i:true},/tail/,"head","data/new.js")).to.eql(d.run("sed -i tail head data/new.js"))
     done()
   })
 })

@@ -21,7 +21,7 @@ function _grep(options, regex, files) {
   // options = common.parseOptions(options, {
   //   'v': 'inverse'
   // });
-
+  options.inverse  = options.v 
   if (!files)
     common.error('no paths given');
 

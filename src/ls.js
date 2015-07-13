@@ -21,7 +21,7 @@ function _ls(options,paths) {
   }
   if (!paths || paths.length == 0)
       paths = ['.'];
-  console.log(paths)
+  // console.log(paths)
   var list = [];
 
   // Conditionally pushes file to list - returns true if pushed, false otherwise
