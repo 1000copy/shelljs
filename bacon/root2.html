@@ -12,7 +12,7 @@
 		}
 		function cb(result){
 			var text = document.getElementById("text")
-			text.value = result;	
+			text.value += "\n"+result;	
 			pwd()				
 		}		
 		function pwd(){
@@ -28,7 +28,16 @@
 		function click42(){
 			run(document.getElementById("cmd").value,cb)
 		}
+		function keypress42(e){
+			if(e.keyCode==13)
+				click42()
+			return false
+		}
 		pwd()
+		function clear42(){
+			var text = document.getElementById("text")
+			text.value = "OK"
+		}
 	</script>
 	<style>
 	  .CommandBox {display: flex; flex-direction: column;width:70%;margin: auto;}
@@ -41,8 +50,9 @@
 <div class = "CommandBox" >
 	<span id="pwd"></span>
 	<div class="CommandBar" >
-	   <input type="text" placeholder="command here..." class ="CommandEdit" id="cmd" >
+	   <input type="text" placeholder="command here..." class ="CommandEdit" id="cmd" onkeypress="keypress42(event)">
 	   <input type="button" value="run" style="width:10%" onclick="click42()">   
+	   <input type="button" value="clr" style="width:10%" onclick="clear42()">   
 	</div>
 	<div class ="CommandResult">
 	   	<textarea class="CommandResult1" placeholder="Ready" readonly="true" id="text"> </textarea>
