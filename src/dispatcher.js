@@ -50,10 +50,11 @@ function sed (str){
 function find (str){
   var argv = opt(String2Argv(str),{});//force
   var poses = argv._
-  // console.log(poses)
-  if (poses.length < 2)
-      throw new common.ArgumentLengthError()
-  return _find(poses.slice(1))
+  // console.log(poses)  
+  if (poses.length >=2)
+    return _find(poses.slice(1))
+  else
+    return _find(".")
 }    
 
 function grep (str){

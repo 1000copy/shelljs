@@ -13,10 +13,12 @@
 		function cb(cmd,result){
 			var text = document.getElementById("text")
 			text.value += "\n$"+cmd+"\n"+result;	
+			var text = document.getElementById("cmd")
+			text.value = "";	
 			pwd()				
 		}		
 		function pwd(){
-			run("pwd",function(r){
+			run("pwd",function(cmd,r){
 					var span = document.getElementById("pwd")
 					while( span.firstChild ) {
 					    span.removeChild( span.firstChild );
@@ -41,10 +43,10 @@
 	</script>
 	<style>
 	  .CommandBox {display: flex; flex-direction: column;width:70%;margin: auto;}
-	  .CommandBar {display: flex; flex-direction: row;justify-content: flex-end;}
+	  .CommandBar {display: flex; flex-direction: row;justify-content: flex-end}
 	  .CommandResult {display: flex;justify-content: flex-end;}
 	  .CommandResult1 {width: 100%;height:90%}
-	  .CommandEdit {padding: 10px;width:90%}
+	  .CommandEdit {padding: 10px;width:90%;font-size: xx-large}
 	</style>
 </head>
 <div class = "CommandBox" >
