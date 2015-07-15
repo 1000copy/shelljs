@@ -6,13 +6,13 @@
 			r.open("GET", "/run?"+cmd, true);
 			r.onreadystatechange = function () {
 			  if (r.readyState != 4 || r.status != 200) return;
-			  callback(r.responseText)			  
+			  callback(cmd,r.responseText)			  
 			};
 			r.send();
 		}
-		function cb(result){
+		function cb(cmd,result){
 			var text = document.getElementById("text")
-			text.value += "\n"+result;	
+			text.value += "\n$"+cmd+"\n"+result;	
 			pwd()				
 		}		
 		function pwd(){
