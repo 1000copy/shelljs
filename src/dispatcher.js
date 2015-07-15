@@ -175,7 +175,7 @@ function cd (str){
   var d = argv._[1]
   // console.log(d)
   // console.log(argv)
-  return _cd(d)    
+  return _cd({},d)    
 }
 
 var _ = require("underscore")

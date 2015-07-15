@@ -1,6 +1,6 @@
 var http = require('http');
 var opt = require('opt-string')//
-var shell = require('../src/cli.js')
+var d = require("../src/dispatcher.js")
 const PORT=80; 
 
 function handleRequest(request, response){
@@ -8,7 +8,7 @@ function handleRequest(request, response){
     if(request.url =="/"){
     	response.setHeader("content-type","text/html")
    			var fs = require('fs')
-			var filename = "bacon/root.html";
+			var filename = "bacon/root2.html";
 			fs.readFile(filename, 'utf8', function(err, data) {
 			  if (err) throw err;
 			  response.end(data)
@@ -17,11 +17,14 @@ function handleRequest(request, response){
     else if (request.url.indexOf("/run")!=-1){
     	var search = getcmd(request.url)
       try{
-        var r = shell.run(search)
+        var r = d.run(search)
          // response.end()
             
         // array to string
-        response.end(r.toString())
+        if (r ==undefined)
+          response.end("OK")
+        else
+          response.end(r.toString())
       }catch(e){
         response.end(e.message)
         // console.log(e.message)

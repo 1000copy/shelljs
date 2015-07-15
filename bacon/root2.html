@@ -1,0 +1,51 @@
+<head>
+	<script type="text/javascript">
+		function run(cmd,callback){
+			var r = new XMLHttpRequest();
+			// var cmd = document.getElementById("cmd").value
+			r.open("GET", "/run?"+cmd, true);
+			r.onreadystatechange = function () {
+			  if (r.readyState != 4 || r.status != 200) return;
+			  callback(r.responseText)			  
+			};
+			r.send();
+		}
+		function cb(result){
+			var text = document.getElementById("text")
+			text.value = result;	
+			pwd()				
+		}		
+		function pwd(){
+			run("pwd",function(r){
+					var span = document.getElementById("pwd")
+					while( span.firstChild ) {
+					    span.removeChild( span.firstChild );
+					}
+					span.appendChild( document.createTextNode("Directory Runner:"+r))
+				}
+				)
+		}
+		function click42(){
+			run(document.getElementById("cmd").value,cb)
+		}
+		pwd()
+	</script>
+	<style>
+	  .CommandBox {display: flex; flex-direction: column;width:70%;margin: auto;}
+	  .CommandBar {display: flex; flex-direction: row;justify-content: flex-end;}
+	  .CommandResult {display: flex;justify-content: flex-end;}
+	  .CommandResult1 {width: 100%;height:90%}
+	  .CommandEdit {padding: 10px;width:90%}
+	</style>
+</head>
+<div class = "CommandBox" >
+	<span id="pwd"></span>
+	<div class="CommandBar" >
+	   <input type="text" placeholder="command here..." class ="CommandEdit" id="cmd" >
+	   <input type="button" value="run" style="width:10%" onclick="click42()">   
+	</div>
+	<div class ="CommandResult">
+	   	<textarea class="CommandResult1" placeholder="Ready" readonly="true" id="text"> </textarea>
+	</div>
+</div>
+

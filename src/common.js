@@ -209,6 +209,18 @@ function ArgumentLengthError(length) {
   this.message = "arguments length must be :" + length;  
 };
 
+function ArgumentLengthGEError(length) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = "arguments length must greater than :" + length;  
+};
+
+function ArgumentLengthLEError(length) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = "arguments length must less than :" + length;  
+};
+
 function CustomError(message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
